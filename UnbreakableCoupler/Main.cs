@@ -15,17 +15,31 @@ namespace UnbreakableCoupler
 		}
 	}
 
-	[HarmonyPatch(typeof(CouplingJoint), "CreateJoint")]
-	class CouplingJoint_CreateJoint_Patch
+	[HarmonyPatch(typeof(Coupler), "CreateSpringyJoint")]
+	class Coupler_CreateSpringyJoint_Patch
 	{
-		static void Postfix(ref ConfigurableJoint ___cj)
+		static void Postfix(Coupler __instance)
 		{
-			Debug.Log("Strengthening coupler...");
+			Debug.Log("Strengthening springy coupler...");
 
-			___cj.breakForce = Single.MaxValue;
-			___cj.breakTorque = Single.MaxValue;
+			__instance.springyCJ.breakForce = Single.PositiveInfinity;
+			__instance.springyCJ.breakTorque = Single.PositiveInfinity;
 
-			Debug.Log("Coupler strengthened!");
+			Debug.Log("Springy coupler strengthened!");
+		}
+	}
+
+	[HarmonyPatch(typeof(Coupler), "CreateRigidJoint")]
+	class Coupler_CreateRigidJoint_Patch
+	{
+		static void Postfix(Coupler __instance)
+		{
+			Debug.Log("Strengthening rigid coupler...");
+
+			__instance.rigidCJ.breakForce = Single.PositiveInfinity;
+			__instance.rigidCJ.breakTorque = Single.PositiveInfinity;
+
+			Debug.Log("Rigid coupler strengthened!");
 		}
 	}
 }
