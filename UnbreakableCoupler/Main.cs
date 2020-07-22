@@ -15,23 +15,15 @@ namespace UnbreakableCoupler
 		}
 	}
 
-	[HarmonyPatch(typeof(Coupler), MethodType.Constructor)]
+	[HarmonyPatch(typeof(CouplingJoint), MethodType.Constructor)]
 	class Coupler_Constructor_Patch
 	{
-		static void Postfix(Coupler __instance)
+		static void Postfix(ref float __BREAK_FORCE, ref float __BREAK_TORQUE)
 		{
 			Debug.Log("Strengthening coupler...");
-			Coupler_Constructor_Patch.StrengthenCoupler(__instance);
+			__BREAK_FORCE = Single.MaxValue;
+			__BREAK_TORQUE = Single.MaxValue;
 			Debug.Log("Coupler strengthened!");
-		}
-
-		static void StrengthenCoupler(Coupler __instance)
-		{
-			var breakForce = Traverse.Create(__instance).Field("BREAK_FORCE");
-			var breakTorque = Traverse.Create(__instance).Field("BREAK_TORQUE");
-
-			breakForce.SetValue(Single.MaxValue);
-			breakTorque.SetValue(Single.MaxValue);
 		}
 	}
 }

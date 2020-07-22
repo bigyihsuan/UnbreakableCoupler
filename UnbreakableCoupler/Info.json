@@ -1,0 +1,8 @@
+{
+	"Id": "UnbreakableCoupler",
+	"DisplayName": "Unbreakable Coupler",
+	"Author": "bigyihsuan",
+	"Version": "1.0.0",
+	"AssemblyName": "UnbreakableCoupler.dll",
+	"EntryMethod": "UnbreakableCoupler.Main.Load"
+}
