@@ -15,6 +15,16 @@ namespace UnbreakableCoupler
 		}
 	}
 
+	[HarmonyPatch(typeof(CouplerBreakDetector), "OnJointBreak")]
+	class CouplerBreakDetector_OnJointBreak_Patch
+	{
+		static bool Prefix()
+		{
+			return false; //skip the original
+		}
+	}
+
+	/*
 	[HarmonyPatch(typeof(Coupler), "CreateSpringyJoint")]
 	class Coupler_CreateSpringyJoint_Patch
 	{
@@ -42,4 +52,5 @@ namespace UnbreakableCoupler
 			Debug.Log("Rigid coupler strengthened!");
 		}
 	}
+	*/
 }
