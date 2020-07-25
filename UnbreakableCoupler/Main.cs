@@ -15,16 +15,36 @@ namespace UnbreakableCoupler
 		}
 	}
 
+	[HarmonyPatch(typeof(Coupler), "Uncouple")]
+	class Coupler_Uncouple_Patch
+	{
+		static void Prefix(bool playAudio, bool calledOnOtherCoupler, ref bool dueToBrokenCouple, bool viaChainInteraction)
+		{
+			if (dueToBrokenCouple)
+			{
+				dueToBrokenCouple = !dueToBrokenCouple;
+			}
+		}
+	}
+
+	/*
+
 	[HarmonyPatch(typeof(CouplerBreakDetector), "OnJointBreak")]
 	class CouplerBreakDetector_OnJointBreak_Patch
 	{
 		static bool Prefix()
 		{
+			Debug.Log("Stopped coupler breaking");
 			return false; //skip the original
+		}
+
+		static void Postfix()
+		{
+			Debug.Log("Skipped the original");
 		}
 	}
 
-	/*
+
 	[HarmonyPatch(typeof(Coupler), "CreateSpringyJoint")]
 	class Coupler_CreateSpringyJoint_Patch
 	{
@@ -52,5 +72,6 @@ namespace UnbreakableCoupler
 			Debug.Log("Rigid coupler strengthened!");
 		}
 	}
+
 	*/
 }
